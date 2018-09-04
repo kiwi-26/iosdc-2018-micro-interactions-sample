@@ -61,22 +61,19 @@ class ImageApplyTransitionAnimator: NSObject, UIViewControllerAnimatedTransition
         containerView.addSubview(transitionImageView)
         containerView.bringSubview(toFront: transitionImageView)
         
-        // 最初の0.2秒で遷移元の画面を非表示にする
-        // containerViewに追加しているImageViewだけが表示される
-        UIView.animate(withDuration: duration/5, animations: {
-            fromView.alpha = 0
-        })
-
-        // 0.2秒後からEaseInOutでImageViewの位置を移動
-        // 合わせて、一覧に戻る遷移の場合は一覧画面を徐々に表示
-        UIView.animate(withDuration: duration*4/5, delay: duration/5, options: [.curveEaseInOut], animations: {
+        fromView.alpha = 0
+        let animator = UIViewPropertyAnimator.runningPropertyAnimator(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
+            // 0.2秒後からEaseInOutでImageViewの位置を移動
+            // 合わせて、一覧に戻る遷移の場合は一覧画面を徐々に表示
             transitionImageView.frame = finalFrame
             if !presenting {
                 toView.alpha = 1
             }
-        }, completion: { _ in
+        }, completion: {_ in
             // 非表示にした詳細画面を表示
             // 遷移中に表示していたimageViewを削除
+            toView.alpha = 1
+            fromView.alpha = 1
             if presenting {
                 detailView.alpha = 1
             } else {
@@ -85,6 +82,7 @@ class ImageApplyTransitionAnimator: NSObject, UIViewControllerAnimatedTransition
             transitionImageView.removeFromSuperview()
             transitionContext.completeTransition(true)
         })
+        animator.startAnimation()
         
         // 角丸はCABasicAnimationを使う
         let cornerRadiusAnimation = CABasicAnimation(keyPath: "cornerRadius")

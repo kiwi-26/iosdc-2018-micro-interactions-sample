@@ -6,3 +6,7 @@ Proposal:
 
 Slide:
 [https://speakerdeck.com/kiwi26/introduction-to-micro-interactions-for-ios-apps](https://speakerdeck.com/kiwi26/introduction-to-micro-interactions-for-ios-apps)
+
+All photos: [Unsplash](https://unsplash.com/)
+
+All icons: [Material design icons](https://material.io/tools/icons/?style=baseline)
